@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "skillListingBudgetFraction": 0.04,
+  "skillListingMaxDescChars": 512,
+  "attribution": { "commit": "", "pr": "" },
+  "statusLine": {
+    "type": "command",
+    "command": "node .claude/statusline.cjs",
+    "padding": 0
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/session-init.cjs" }]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "*",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/subagent-init.cjs" }]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/session-state.cjs" }]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/dev-rules-reminder.cjs" },
+          { "type": "command", "command": "node .claude/hooks/simplify-gate.cjs" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Glob|Grep|Read|Edit|Write",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/scout-block.cjs" }]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/session-state.cjs" }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task|TaskCreate|TaskUpdate|TodoWrite",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/session-state.cjs" }]
+      }
+    ]
+  }
+}

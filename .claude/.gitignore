@@ -1,0 +1,2 @@
+# Runtime hook logs are local diagnostics and may contain absolute paths.
+hooks/.logs/

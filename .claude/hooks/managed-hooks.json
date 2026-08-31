@@ -1,0 +1,11 @@
+{
+  "_comment": "Runtime hooks registered by this project. Mirrors .claude/settings.json.",
+  "managedHooks": [
+    "dev-rules-reminder",
+    "scout-block",
+    "session-init",
+    "session-state",
+    "simplify-gate",
+    "subagent-init"
+  ]
+}
